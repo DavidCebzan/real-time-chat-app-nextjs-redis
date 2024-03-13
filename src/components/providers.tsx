@@ -9,7 +9,7 @@ function Providers({children}: {children: React.ReactNode}) {
     <Toaster position='top-center' 
     reverseOrder={false} />
     {children}
-    Providers</>
+    </>
   )
 }
 
