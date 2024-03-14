@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 
 type FormData = z.infer<typeof addFriendValidator>
-
+//1.54.25
 
 function AddFriendButton() {
 
@@ -28,7 +28,7 @@ function AddFriendButton() {
         try {
             const validatedEmail = addFriendValidator.parse({ email });
 
-            await axios.post('/api/friend/add', { email: validatedEmail });
+            await axios.post('/api/friends/add', { email: validatedEmail });
 
             setIsSucces(true);
         } catch (e) {
