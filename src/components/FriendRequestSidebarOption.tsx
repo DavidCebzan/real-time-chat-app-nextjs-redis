@@ -1,4 +1,5 @@
 'use client'
+import { ROUTES } from '@/helpers/routes'
 import { UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -13,7 +14,7 @@ function FriendRequestSidebarOption({initialUnseenRequestCount, sessionId}: Frie
    
     return (
         <Link
-            href={'/dasboard/requests'}
+            href={`${ROUTES.dashboard}${ROUTES.requests}`}
             className='text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
         >
             <div

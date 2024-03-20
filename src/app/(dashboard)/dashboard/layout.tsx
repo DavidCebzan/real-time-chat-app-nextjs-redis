@@ -2,6 +2,7 @@ import FriendRequestSidebarOption from '@/components/FriendRequestSidebarOption'
 import { Icon, Icons } from '@/components/Icons';
 import SignOutButton from '@/components/SignOutButton';
 import { fetchRedis } from '@/helpers/redis';
+import { ROUTES } from '@/helpers/routes';
 import { authoOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
@@ -25,7 +26,7 @@ const sideBarOptions: SideBarOptions[] = [
     {
         id: 1,
         name: 'Add friend',
-        href: '/dashboard/add',
+        href: `${ROUTES.dashboard}${ROUTES.add}`,
         Icon: 'UserPlus'
     },
 ] 
@@ -46,7 +47,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
 
 
-                <Link href={'/dashboard'} className='flex shrink-0 items-center h-16'>
+                <Link href={`${ROUTES.dashboard}`} className='flex shrink-0 items-center h-16'>
                     <Icons.Logo className='h-8 w-auto text-indigo-600' />
                 </Link>
 
