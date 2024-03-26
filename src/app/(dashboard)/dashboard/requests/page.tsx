@@ -14,14 +14,15 @@ async function Requests() {
 
     const incomingFriendRequest = await Promise.all(
         incomingSenderIds.map(async (senderId) => {
-            const seder = await fetchRedis('get', `user:${senderId}`) as User;
+            const seder = await fetchRedis('get', `user:${senderId}`) as string;
+            const parsedSender = JSON.parse(seder) as User;
             return {
                 senderId,
-                senderEmail: seder.email,
+                senderEmail: parsedSender.email,
             }
         })
     )
-
+        
     return (
         <main className='pt-8'>
             <h1 className='font-bold text-5xl mb-8'>Add a friendcqwer</h1>
