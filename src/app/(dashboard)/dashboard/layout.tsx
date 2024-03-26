@@ -1,6 +1,7 @@
 import FriendRequestSidebarOption from '@/components/FriendRequestSidebarOption';
 import { Icon, Icons } from '@/components/Icons';
 import SignOutButton from '@/components/SignOutButton';
+import { getFriendsByUserId } from '@/helpers/get-friends-by-user-id';
 import { fetchRedis } from '@/helpers/redis';
 import { ROUTES } from '@/helpers/routes';
 import { authoOptions } from '@/lib/auth';
@@ -39,6 +40,8 @@ const Layout = async ({ children }: LayoutProps) => {
         notFound();
     }
 
+    const friends = await getFriendsByUserId(session.user.id);
+
     const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_request`) as User[]).length
 
     return (
@@ -52,7 +55,7 @@ const Layout = async ({ children }: LayoutProps) => {
                 </Link>
 
                 <div className='text-xs font-semibold leading-6 text-gray-400'>
-                    your chats
+                    Your chats
                 </div>
 
                 <nav className='flex flex-1 flex-col'>
@@ -60,6 +63,9 @@ const Layout = async ({ children }: LayoutProps) => {
                         <li>
                             Chats that the user has
                         </li>
+
+
+
                         <li>
                             <div className='text-xs font-semibold left-6 text-gray-400'>
                                 Overwiev
