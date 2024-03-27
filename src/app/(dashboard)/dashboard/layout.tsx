@@ -1,5 +1,6 @@
 import FriendRequestSidebarOption from '@/components/FriendRequestSidebarOption';
 import { Icon, Icons } from '@/components/Icons';
+import SidebarChatList from '@/components/SidebarChatList';
 import SignOutButton from '@/components/SignOutButton';
 import { getFriendsByUserId } from '@/helpers/get-friends-by-user-id';
 import { fetchRedis } from '@/helpers/redis';
@@ -14,7 +15,7 @@ import React from 'react'
 type LayoutProps = {
     children: React.ReactNode;
 }
-//3:27:21
+//4.33.07
 type SideBarOptions = {
     id: number,
     name: string,
@@ -30,7 +31,7 @@ const sideBarOptions: SideBarOptions[] = [
         href: `${ROUTES.dashboard}${ROUTES.add}`,
         Icon: 'UserPlus'
     },
-] 
+]
 
 const Layout = async ({ children }: LayoutProps) => {
 
@@ -54,14 +55,15 @@ const Layout = async ({ children }: LayoutProps) => {
                     <Icons.Logo className='h-8 w-auto text-indigo-600' />
                 </Link>
 
-                <div className='text-xs font-semibold leading-6 text-gray-400'>
+                {friends.length > 0 && <div className='text-xs font-semibold leading-6 text-gray-400'>
                     Your chats
                 </div>
-
+                }
                 <nav className='flex flex-1 flex-col'>
                     <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+                        {/* Chats that the user has */}
                         <li>
-                            Chats that the user has
+                            <SidebarChatList sessionId={session.user.id} friends={friends} />
                         </li>
 
 
@@ -72,40 +74,38 @@ const Layout = async ({ children }: LayoutProps) => {
                             </div>
 
                             <ul role='list' className='-mx-2 mt-2 space-y-1'>
-                            {sideBarOptions.map((item) => {
-                                const Icon = Icons[item.Icon];
-                                return (
-                                <li key={item.id}>
-                                    <Link 
-                                    href={item.href} 
-                                    className='text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                    > 
-                                    <span
-                                    className='text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
-                                    >
-                                        <Icon className='h-4 w-4'/>
-                                    </span>
-                                    <span className='truncate'>
-                                        {item.name}
-                                    </span>
-                                    </Link>
+                                {sideBarOptions.map((item) => {
+                                    const Icon = Icons[item.Icon];
+                                    return (
+                                        <li key={item.id}>
+                                            <Link
+                                                href={item.href}
+                                                className='text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                            >
+                                                <span
+                                                    className='text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
+                                                >
+                                                    <Icon className='h-4 w-4' />
+                                                </span>
+                                                <span className='truncate'>
+                                                    {item.name}
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
+
+                                {/* navigate  */}
+
+                                <li>
+                                    <FriendRequestSidebarOption
+                                        sessionId={session.user.id}
+                                        initialUnseenRequestCount={unseenRequestCount}
+                                    />
                                 </li>
-                                )
-                            })}
+
                             </ul>
                         </li>
-
-
-
-                        {/* navigate  */}
-
-                            <li>
-                                <FriendRequestSidebarOption 
-                                sessionId={session.user.id}
-                                initialUnseenRequestCount={unseenRequestCount}
-                                />
-                            </li>
-
 
 
                         <li className=' -mx-6 mt-auto flex items-center'>
