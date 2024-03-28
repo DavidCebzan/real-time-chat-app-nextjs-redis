@@ -2,11 +2,17 @@
 import React, { useRef, useState } from 'react'
 import { Message } from '@/lib/validations/message'
 import { cn } from '@/lib/utils'
+import {format} from 'date-fns';
 
 type MessagesProps = {
     initialMessage: Message[],
     sessionUserId: string
 }
+
+function formatTimestamp(timestamp: number) {
+    return format(timestamp, 'HH:mm');
+}
+
 
 function Messages({ initialMessage, sessionUserId }: MessagesProps) {
 
@@ -26,6 +32,7 @@ function Messages({ initialMessage, sessionUserId }: MessagesProps) {
                     const isCurrentUser = message.senderId == sessionUserId;
 
                     const hasNextMessageFromSameUser = messages[index - 1]?.senderId === messages[index].senderId;
+               
                     return (
                         <div
                             key={`${message.id}-${message.timestamp}`}
@@ -52,7 +59,7 @@ function Messages({ initialMessage, sessionUserId }: MessagesProps) {
                                     >
                                         {message.text}{' '}
                                         <span className='ml-2 text-xs text-gray-400'>
-                                            {message.timestamp}
+                                            {formatTimestamp(message.timestamp)}
                                         </span>
                                     </span>
                                 </div>

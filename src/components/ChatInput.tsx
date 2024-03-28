@@ -22,8 +22,7 @@ function ChatInput({
     const sendMessage = async () => {
         setIsLoading(true);
         try {
-            await axios.post('api/message/send', {text: input, chatId});
-
+            await axios.post('/api/message/send', { text: input, chatId })
             setInput('');
             textAreaRef.current?.focus();
         } catch (error) {
