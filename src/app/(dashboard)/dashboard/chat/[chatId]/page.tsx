@@ -1,3 +1,4 @@
+import ChatInput from '@/components/ChatInput'
 import Messages from '@/components/Messages'
 import { fetchRedis } from '@/helpers/redis'
 import { authoOptions } from '@/lib/auth'
@@ -59,7 +60,7 @@ async function Chat({ params }: ChatProps) {
 
   return (
     <div
-      className='flex-1 justify-between flex-col h-full max-h-[calc(100vh-6rem)]'
+      className='flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-6rem)]'
     >
       {/* contact info */}
       <div className='flex sm:items-center justify-between py-3 border-b-2 border-gray-200'>
@@ -97,6 +98,7 @@ async function Chat({ params }: ChatProps) {
 
 
       <Messages sessionUserId={session.user.id} initialMessage={initialMessages}/>
+      <ChatInput chatPartner={chatPartner} chatId={chatId}/>
     </div>
   )
 }
