@@ -2,11 +2,14 @@
 import React, { useRef, useState } from 'react'
 import { Message } from '@/lib/validations/message'
 import { cn } from '@/lib/utils'
-import {format} from 'date-fns';
+import { format } from 'date-fns';
+import Image from 'next/image';
 
 type MessagesProps = {
     initialMessage: Message[],
-    sessionUserId: string
+    ownUserId: string,
+    ownImage: string | null | undefined,
+    chatPartner: User
 }
 
 function formatTimestamp(timestamp: number) {
@@ -14,7 +17,12 @@ function formatTimestamp(timestamp: number) {
 }
 
 
-function Messages({ initialMessage, sessionUserId }: MessagesProps) {
+function Messages({
+    initialMessage,
+    ownUserId,
+    ownImage,
+    chatPartner
+}: MessagesProps) {
 
     const scrolldownRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,14 +33,14 @@ function Messages({ initialMessage, sessionUserId }: MessagesProps) {
         <div
             id='messages'
             className='flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'
-            >
+        >
             <div ref={scrolldownRef} />
             {
                 messages.map((message, index) => {
-                    const isCurrentUser = message.senderId == sessionUserId;
+                    const isCurrentUser = message.senderId == ownUserId;
 
                     const hasNextMessageFromSameUser = messages[index - 1]?.senderId === messages[index].senderId;
-               
+
                     return (
                         <div
                             key={`${message.id}-${message.timestamp}`}
@@ -63,6 +71,21 @@ function Messages({ initialMessage, sessionUserId }: MessagesProps) {
                                         </span>
                                     </span>
                                 </div>
+                                {<div
+                                    className={cn('relative w-6 h-6', {
+                                        'order-2': isCurrentUser,
+                                        'order-1': !isCurrentUser,
+                                        'invisible': hasNextMessageFromSameUser,
+                                    })}
+                                >
+                                    <Image
+                                        fill
+                                        src={isCurrentUser ? (ownImage as string) : chatPartner.image}
+                                        alt={`User Image`}
+                                        referrerPolicy='no-referrer'
+                                        className='rounded-full'
+                                    />
+                                </div>}
                             </div>
                         </div>)
                 })
