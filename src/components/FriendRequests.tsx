@@ -10,7 +10,7 @@ type FriendRequestsProps = {
     incomingFriendRequest: IncomingFriendRequest[]
     sesionId: string,
 }
-//6:17:26
+
 function FriendRequests({incomingFriendRequest, sesionId}: FriendRequestsProps) {
     const [friendRequest, setFriendRequest] = useState(incomingFriendRequest)
 
