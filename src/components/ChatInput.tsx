@@ -21,7 +21,7 @@ function ChatInput({
 
     const sendMessage = async () => {
         if(!input) {
-            return
+            return;
         }
         setIsLoading(true);
         try {
