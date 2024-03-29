@@ -46,7 +46,7 @@ function Messages({
 
             pusherClient.unbind('incoming-message', messageHanlder);
         }
-    }, [])
+    }, [chatId])
 
 
     return (

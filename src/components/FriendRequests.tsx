@@ -31,7 +31,7 @@ function FriendRequests({incomingFriendRequest, sesionId}: FriendRequestsProps) 
 
             pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
         }
-    }, [])
+    }, [sesionId])
 
 
     const acceptFriend = async (senderId: string) => {
