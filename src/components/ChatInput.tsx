@@ -20,6 +20,9 @@ function ChatInput({
     const [isLoading, setIsLoading] = useState(false);
 
     const sendMessage = async () => {
+        if(!input) {
+            return
+        }
         setIsLoading(true);
         try {
             await axios.post('/api/message/send', { text: input, chatId })
