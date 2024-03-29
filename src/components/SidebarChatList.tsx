@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 import UnseenChatToast from './UnseenChatToast'
 
 
-type EctendedMessage = Message & {
+type ExtendedMessage = Message & {
     senderImg: string,
     senderName: string;
 }
@@ -36,7 +36,7 @@ function SidebarChatList({ friends, sessionId }: SidebarChatListProps) {
         pusherClient.subscribe(toPuherKey(`user:${sessionId}:chats`));
         pusherClient.subscribe(toPuherKey(`user:${sessionId}:friends`));
 
-        const chatHandler = (message: EctendedMessage) => {
+        const chatHandler = (message: ExtendedMessage) => {
             //notify only if we are not in the caht
             const shouldNotify = pathName !== `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`;
 
