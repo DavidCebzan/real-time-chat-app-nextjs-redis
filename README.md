@@ -20,11 +20,7 @@ Redis: Redis is an open-source, in-memory data structure store used as a databas
 
 Google Authentication: Google authentication is implemented using OAuth 2.0 for secure user sign-in.
 
-WebSocket Communication: Pusher is used to open WebSocket connections, enabling real-time communication 
-
-between clients.
-messaging functionality.
-
+WebSocket Communication: Pusher is used to open WebSocket connections, enabling real-time communication between clients.
 
 ## Setup Instructions
 Clone the Repository:
