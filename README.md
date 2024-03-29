@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Next.js Chat Application with Google Authentication
 
-## Getting Started
+This is a web application built using Next.js that serves as a real-time chat platform with Google authentication. The application utilizes Redis as the database to store user information and chat messages.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Google Authentication: Users can sign in securely using their Google accounts.
+
+Real-time Messaging: Users can send and receive messages in real-time within the application.
+
+Friend Management: Users can send friend requests, accept or deny friend requests, and manage their friend list.
+
+Persistent Data Storage: Redis is used as the database to store user information, friend relationships, and chat messages.
+
+## Technologies Used
+
+Next.js: Next.js is a React framework for building server-side rendered (SSR) and statically generated web applications.
+
+Redis: Redis is an open-source, in-memory data structure store used as a database, cache, and message broker.
+
+Google Authentication: Google authentication is implemented using OAuth 2.0 for secure user sign-in.
+
+WebSocket Communication: Pusher is used to open WebSocket connections, enabling real-time communication 
+
+between clients.
+messaging functionality.
+
+
+## Setup Instructions
+Clone the Repository:
+
+``` bash 
+git clone https://github.com/your-username/nextjs-chat-app.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+``` bash
+Copy code
+cd nextjs-chat-app
+npm install
+```
+Set up Environment Variables:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a .env file in the root directory.
+Define the following environment variables:
+makefile
+Copy code
+``` bash
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+REDIS_HOST=redis-host
+REDIS_PORT=redis-port
+REDIS_PASSWORD=redis-password
 
-## Learn More
+NEXTAUTH_SECRET=suppersecret
 
-To learn more about Next.js, take a look at the following resources:
+UPSTASH_REDIS_REST_URL=your-upstah-url
+UPSTASH_REDIS_REST_TOKEN=your-upstah-tocken
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+PUSHER_APP_ID = your-pusher-id
+NEXT_PUBLIC_PUHER_APP_KEY = your-pusher-app-key
+PUSHER_APP_SECRET = your-pusher-secret
+```
 
-## Deploy on Vercel
+## Run the Application:
+``` bash
+npm run dev
+Access the Application:
+```
+Open your web browser and navigate to [http://localhost:3000](http://localhost:3000).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
