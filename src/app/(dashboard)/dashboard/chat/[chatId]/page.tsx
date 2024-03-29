@@ -97,12 +97,14 @@ async function Chat({ params }: ChatProps) {
       </div>
 
 
-      <Messages 
-      ownImage={session.user.image} 
-      chatPartner={chatPartner} 
-      ownUserId={session.user.id} 
-      initialMessage={initialMessages}/>
-      <ChatInput chatPartner={chatPartner} chatId={chatId}/>
+      <Messages
+        ownImage={session.user.image}
+        chatPartner={chatPartner}
+        ownUserId={session.user.id}
+        initialMessage={initialMessages}
+        chatId={chatId}
+      />
+      <ChatInput chatPartner={chatPartner} chatId={chatId} />
     </div>
   )
 }

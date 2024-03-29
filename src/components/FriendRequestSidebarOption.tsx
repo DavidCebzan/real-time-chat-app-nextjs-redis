@@ -11,25 +11,25 @@ type FriendRequestSidebarOptionProps = {
     sessionId: string
 }
 
-function FriendRequestSidebarOption({initialUnseenRequestCount, sessionId}: FriendRequestSidebarOptionProps) {
-   const [unseenRequestCount, setUnseenRequestCount] = useState(initialUnseenRequestCount);
+function FriendRequestSidebarOption({ initialUnseenRequestCount, sessionId }: FriendRequestSidebarOptionProps) {
+    const [unseenRequestCount, setUnseenRequestCount] = useState(initialUnseenRequestCount);
 
-   const friendRequestHanlder = () => {
-    setUnseenRequestCount((prev) => prev + 1);
-   }
-
-   useEffect(() => {
-    pusherClient.subscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
-
-    pusherClient.bind('incoming_friend_request', friendRequestHanlder);
-
-    return () => {
-        pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
-
-        pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
+    const friendRequestHanlder = () => {
+        setUnseenRequestCount((prev) => prev + 1);
     }
-   }, [])
-   
+
+    useEffect(() => {
+        pusherClient.subscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
+
+        pusherClient.bind('incoming_friend_request', friendRequestHanlder);
+
+        return () => {
+            pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
+
+            pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
+        }
+    }, [])
+
     return (
         <Link
             href={`${ROUTES.dashboard}${ROUTES.requests}`}
@@ -42,11 +42,11 @@ function FriendRequestSidebarOption({initialUnseenRequestCount, sessionId}: Frie
             </div>
             <p className='truncate'>Friend requests</p>
             {unseenRequestCount > 0 && (
-            <div 
-            className='rounded-full w-5 h-5 text-xs flex items-center justify-center text-white bg-indigo-600'
-            >
-                {unseenRequestCount}
-            </div>)}
+                <div
+                    className='rounded-full w-5 h-5 text-xs flex items-center justify-center text-white bg-indigo-600'
+                >
+                    {unseenRequestCount}
+                </div>)}
         </Link>
     )
 }
