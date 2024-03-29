@@ -10,26 +10,26 @@ type FriendRequestsProps = {
     incomingFriendRequest: IncomingFriendRequest[]
     sesionId: string,
 }
-
+//6:17:26
 function FriendRequests({incomingFriendRequest, sesionId}: FriendRequestsProps) {
     const [friendRequest, setFriendRequest] = useState(incomingFriendRequest)
 
     const router = useRouter();
     
 
-    const friendRequestHanlder = () => {
-
+    const friendRequestHanlder = ({senderId, senderEmail}: IncomingFriendRequest) => {
+        setFriendRequest((prev) => [...prev, {senderId, senderEmail}])
     }
 
     useEffect(() => {
-        pusherClient.subscribe(toPuherKey(`user:${sesionId}:incoming_friend_requests`));
+        pusherClient.subscribe(toPuherKey(`user:${sesionId}:incoming_friend_request`));
 
-        pusherClient.bind('incoming_friend_requests', friendRequestHanlder);
+        pusherClient.bind('incoming_friend_request', friendRequestHanlder);
 
         return () => {
-            pusherClient.unsubscribe(toPuherKey(`user:${sesionId}:incoming_friend_requests`));
+            pusherClient.unsubscribe(toPuherKey(`user:${sesionId}:incoming_friend_request`));
 
-            pusherClient.unbind('incoming_friend_requests', friendRequestHanlder);
+            pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
         }
     }, [])
 
