@@ -33,8 +33,8 @@ Clone the Repository:
 git clone https://github.com/DavidCebzan/real-time-chat-app-nextjs-redis.git
 ```
 
-``` bash
 Copy code
+``` bash
 cd nextjs-chat-app
 npm install
 ```
@@ -66,7 +66,7 @@ PUSHER_APP_SECRET = your-pusher-secret
 ## Run the Application:
 ``` bash
 npm run dev
-Access the Application:
 ```
+## Access the Application:
 Open your web browser and navigate to [http://localhost:3000](http://localhost:3000).
 
