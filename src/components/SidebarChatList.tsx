@@ -1,8 +1,18 @@
 'use client'
 import { ROUTES } from '@/helpers/routes'
-import { chatHrefConstructor } from '@/lib/utils'
+import { pusherClient } from '@/lib/pusher'
+import { chatHrefConstructor, toPuherKey } from '@/lib/utils'
+import { Message } from '@/lib/validations/message'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import UnseenChatToast from './UnseenChatToast'
+
+
+type EctendedMessage = Message & {
+    senderImg: string,
+    senderName: string;
+}
 
 type SidebarChatListProps = {
     friends: User[],
@@ -21,6 +31,50 @@ function SidebarChatList({ friends, sessionId }: SidebarChatListProps) {
             })
         }
     }, [pathName])
+
+    useEffect(() => {
+        pusherClient.subscribe(toPuherKey(`user:${sessionId}:chats`));
+        pusherClient.subscribe(toPuherKey(`user:${sessionId}:friends`));
+
+        const chatHandler = (message: EctendedMessage) => {
+            //notify only if we are not in the caht
+            const shouldNotify = pathName !== `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`;
+
+            if(!shouldNotify) {
+                return;
+            }
+
+            toast.custom((t) => {
+                //custom component
+                return (
+                <UnseenChatToast
+                    t={t}
+                    sessionId={sessionId}
+                    senderId={message.senderId}
+                    senderImg={message.senderImg}
+                    message={message.text}
+                    senderName={message.senderName}
+                />)
+            })
+
+            setUnseenMessages((prev) => [...prev, message])
+        }
+
+        const newFriendHandler = () => {
+            router.refresh()
+        }
+    
+        pusherClient.bind('new_message', chatHandler);
+        pusherClient.bind('new_friend', newFriendHandler);
+
+        return () => {
+            pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:chats`));
+            pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:friends`));
+
+            pusherClient.unbind('incoming-message', chatHandler);
+            pusherClient.unbind('new_friend', newFriendHandler);
+        }
+    }, [pathName, sessionId, router])
 
     return (
         <ul role='list ' className='max-h-[25rem] overflow-y-auto -mx-2 space-y-1'>

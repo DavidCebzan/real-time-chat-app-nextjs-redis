@@ -9,7 +9,6 @@ import { toPuherKey } from "@/lib/utils";
 
 export async function POST(req: Request) {
     try {
-        console.log('here')
         const { text, chatId }: { text: string, chatId: string } = await req.json();
         const session = await getServerSession(authoOptions);
 
@@ -54,6 +53,12 @@ export async function POST(req: Request) {
             'incoming-message',
             messageData
             )
+
+        pusherServer.trigger(toPuherKey(`user:${friendId}:chats`), 'new_message', {
+            ...message,
+            senderImg: parsedSender.image,
+            senderName: parsedSender.name
+        })    
 
         //send message
 
