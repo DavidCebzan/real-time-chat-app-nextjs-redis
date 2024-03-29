@@ -28,7 +28,7 @@ function FriendRequestSidebarOption({ initialUnseenRequestCount, sessionId }: Fr
 
             pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
         }
-    }, [])
+    }, [sessionId])
 
     return (
         <Link
