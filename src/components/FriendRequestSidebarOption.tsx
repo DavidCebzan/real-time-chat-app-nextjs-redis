@@ -14,19 +14,29 @@ type FriendRequestSidebarOptionProps = {
 function FriendRequestSidebarOption({ initialUnseenRequestCount, sessionId }: FriendRequestSidebarOptionProps) {
     const [unseenRequestCount, setUnseenRequestCount] = useState(initialUnseenRequestCount);
 
-    const friendRequestHanlder = () => {
-        setUnseenRequestCount((prev) => prev + 1);
-    }
-
     useEffect(() => {
         pusherClient.subscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
 
+        pusherClient.subscribe(toPuherKey(`user:${sessionId}:friends`))
+
+        const friendRequestHanlder = () => {
+            setUnseenRequestCount((prev) => prev + 1);
+        }
+
+        const addedFriendHandler = () => {
+            setUnseenRequestCount((prev) => prev - 1);
+        }
+
         pusherClient.bind('incoming_friend_request', friendRequestHanlder);
+
+        pusherClient.bind('new_friend', addedFriendHandler);
 
         return () => {
             pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:incoming_friend_request`));
+            pusherClient.unsubscribe(toPuherKey(`user:${sessionId}:friends`))
 
             pusherClient.unbind('incoming_friend_request', friendRequestHanlder);
+            pusherClient.unbind('new_friend', addedFriendHandler);
         }
     }, [sessionId])
 
